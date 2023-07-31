@@ -1,0 +1,92 @@
+* {
+  margin: 0;
+  padding: 0;
+  font-size: 20px;
+}
+
+#title {
+  text-align: center;
+  padding: 10px;
+}
+
+#container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+/* Calculator Components */
+#calc {
+  height: 60%;
+  width: 360px;
+  background-color: antiquewhite;
+  border: solid black 3px;
+  border-radius: 5px;
+  padding: 8px;
+  padding-top: 13px;
+  background-color: #b0b0b6;
+}
+
+#calc-display {
+  height: 15vh;
+  width: 328px;
+  margin: auto;
+  background-color: white;
+  text-align: end;
+  display: flex;
+  border: solid black 2px;
+  border-radius: 5px;
+  flex-direction: column;
+  justify-content: end;
+  align-items: end;
+}
+
+#calc-keypad {
+  margin-top: 5px;
+}
+
+#calc-interactions {
+  display: flex;
+  flex: 1;
+  margin-left: 16px;
+  margin-right: 16px;
+}
+
+#calc-main {
+  display: flex;
+  flex-direction: row-reverse;
+  justify-content: center;
+}
+
+#calc-operations {
+  display: flex;
+  flex-direction: column;
+}
+
+#calc-nums {
+  display: flex;
+  flex-wrap: wrap;
+  width: 243px;
+}
+
+/* Calculator Elements */
+button {
+  height: 65px;
+  width: 65px;
+  border: solid black 2px;
+  border-radius: 15px;
+  margin: 8px;
+}
+
+#calc-display > p {
+  font-size: 32px;
+  margin-right: 10px;
+}
+
+#calc-interactions > button {
+  flex: 1;
+}
+
+#zero-button {
+  flex-grow: 1;
+}
