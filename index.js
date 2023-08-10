@@ -1,88 +1,129 @@
 document.addEventListener("DOMContentLoaded", () => {
-  const calcButtons = document.querySelectorAll(".calc-button");
+  // App states
+  let num1 = "";
+  let num2 = "";
+  let operator = "";
+  let lastSolution = "";
 
-  calcButtons.forEach((button) =>
+  const OPERATIONS = ["+", "-", "*", "/"];
+  const display = document.querySelector("#expression");
+  const result = document.querySelector("#result");
+
+  // Define actions for number and operation buttons
+  document.querySelectorAll(".calc-button").forEach((button) =>
     button.addEventListener("click", () => {
       updateDisplay(button.value);
     })
   );
 
-  const actionButtons = document.querySelectorAll(".action");
-  actionButtons.forEach((button) => {
+  // Define actions for delete and enter buttons
+  document.querySelectorAll(".action").forEach((button) => {
     button.addEventListener("click", () => {
       if (button.id === "delete-button") {
-        console.log("Delete");
-        deleteEntry();
+        clearCalc();
       } else {
         completeOperation();
       }
     });
   });
+
+  // Define action for sign button
+  document.querySelector("#sign-button").addEventListener("click", () => {
+    toggleSign();
+  });
+
+  // CALCULATOR FUNCTIONS
+
+  function updateDisplay(value) {
+    // Evaluate which value to update
+    if (OPERATIONS.includes(value)) {
+      if (operator === "" && num1 === "") {
+        operator = value;
+        num1 = lastSolution;
+      } else if (operator === "") {
+        operator = value;
+      }
+    } else {
+      // Test for decimal values
+      if (value === ".") {
+        if (num1.includes(".") && operator === "") {
+          return;
+        }
+        if (num2.includes(".") && operator != "") {
+          return;
+        }
+      }
+
+      if (operator === "") {
+        num1 += value;
+      } else {
+        num2 += value;
+      }
+    }
+
+    // Set display in DOM
+    const expression = `${num1} ${operator} ${num2}`;
+    display.textContent = expression;
+  }
+
+  function clearCalc() {
+    if (display.textContent != "") {
+      display.textContent = "";
+    } else {
+      result.textContent = "";
+    }
+
+    num1 = "";
+    num2 = "";
+    operator = "";
+  }
+
+  function completeOperation() {
+    // if expression is incomlete
+    if (num1 === "" || num2 === "" || operator === "") {
+      return;
+    } else {
+      let solution;
+
+      switch (operator) {
+        case "+":
+          solution = parseFloat(num1) + parseFloat(num2);
+          break;
+        case "-":
+          solution = parseFloat(num1) - parseFloat(num2);
+          break;
+        case "*":
+          solution = parseFloat(num1) * parseFloat(num2);
+          break;
+        case "/":
+          solution = parseFloat(num1) / parseFloat(num2);
+          break;
+      }
+
+      // Output solution and reset state
+      result.textContent = solution;
+      lastSolution = solution;
+      clearCalc();
+    }
+  }
+
+  function toggleSign() {
+    if (operator === "") {
+      num1 = parseSign(num1);
+    } else {
+      num2 = parseSign(num2);
+    }
+
+    const expression = `${num1} ${operator} ${num2}`;
+    display.textContent = expression;
+  }
+
+  function parseSign(num) {
+    if (Math.sign(parseFloat(num)) === 1) {
+      num = "-" + num;
+    } else {
+      num = num.slice(1);
+    }
+    return num;
+  }
 });
-
-function updateDisplay(value) {
-  const operations = ["+", "-", "*", "/"];
-  const expression = document.querySelector("#expression");
-  const currentExpression = expression.textContent;
-  const currentExpressionValues = currentExpression.split(" ");
-
-  if (
-    operations.includes(value.trim()) &&
-    currentExpressionValues.length === 3
-  ) {
-    return;
-  } else {
-    expression.textContent = currentExpression.concat(value);
-  }
-}
-
-function deleteEntry() {
-  const expression = document.querySelector("#expression");
-  const result = document.querySelector("#result");
-
-  if (expression.textContent === "") {
-    result.textContent = "";
-  } else {
-    expression.textContent = "";
-  }
-}
-
-function completeOperation() {
-  // Get current expression
-  const expression = document.querySelector("#expression");
-  const result = document.querySelector("#result");
-  const expressionValues = expression.textContent.split(" ");
-
-  // if expression is incomplete
-  if (expressionValues.length != 3 || expressionValues[2] === "") {
-    return;
-  }
-
-  // solve expression
-  let solution;
-
-  switch (expressionValues[1]) {
-    case "+":
-      solution =
-        parseFloat(expressionValues[0]) + parseFloat(expressionValues[2]);
-      break;
-    case "-":
-      solution = parseInt(expressionValues[0]) - parseInt(expressionValues[2]);
-      break;
-    case "*":
-      solution =
-        parseFloat(expressionValues[0]) * parseFloat(expressionValues[2]);
-      break;
-    case "/":
-      solution =
-        parseFloat(expressionValues[0]) / parseFloat(expressionValues[2]);
-      break;
-  }
-  if (isNaN(solution)) {
-    result.textContent = "Error";
-  } else {
-    result.textContent = solution;
-  }
-
-  expression.textContent = "";
-}

@@ -5,10 +5,15 @@
   font-family: "Roboto", sans-serif;
 }
 
+html {
+  background-color: #242424;
+}
+
 #title {
   text-align: center;
   padding: 10px;
   font-size: xx-large;
+  color: white;
 }
 
 #container {
@@ -21,12 +26,11 @@
 #calc {
   height: 60%;
   width: 360px;
-  background-color: antiquewhite;
   border: solid black 3px;
   border-radius: 5px;
   padding: 8px;
   padding-top: 13px;
-  background-color: #b0b0b6;
+  background-color: #d6d6d8;
 }
 
 #calc-display {
@@ -96,4 +100,21 @@ button {
 
 #zero-button {
   flex-grow: 1;
+}
+
+#calc-operations > button {
+  background-color: #2ea5f0;
+}
+
+#calc-nums > button {
+  background-color: #0064a3;
+  color: white;
+}
+
+#enter-button {
+  background-color: #f09f2e;
+}
+
+#delete-button {
+  background-color: white;
 }
